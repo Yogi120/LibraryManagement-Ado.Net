@@ -182,12 +182,12 @@ namespace LibraryManagementAdo.Net
         {
             try
             {
+                string query = "SpGetBooksbyAuthor";
                 List<Books> list = new List<Books>();
                 sqlConnection.Open();
-                string query = "SpGetBooksbyAuthor";
                 SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
                 sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
-                sqlCommand.Parameters.AddWithValue("Author", author);
+                sqlCommand.Parameters.AddWithValue("@Author", author);
 
                 SqlDataReader reader = sqlCommand.ExecuteReader();
                 while (reader.Read())
@@ -232,7 +232,7 @@ namespace LibraryManagementAdo.Net
 
                 SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
                 sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
-                sqlCommand.Parameters.AddWithValue("Genre", genre);
+                sqlCommand.Parameters.AddWithValue("@Genre", genre);
 
                 SqlDataReader reader = sqlCommand.ExecuteReader();
                 while (reader.Read())
@@ -247,7 +247,7 @@ namespace LibraryManagementAdo.Net
                     };
                     list.Add(book);
                 }
-                foreach(Books book in list)
+                foreach (Books book in list)
                 {
                     Console.WriteLine($"Book_id : {book.Book_id}\n Title : {book.Title}\n Author : {book.Author}\n Genre : {book.Genre}\n Borrowed : {book.Borrowed}");
                 }
@@ -266,5 +266,47 @@ namespace LibraryManagementAdo.Net
                 sqlConnection.Close();
             }
         }
+
+        public bool Borrow_Book(int id, string borrower)
+        {
+            try
+            {
+                sqlConnection.Open();
+                string borrow = "SpBorrowBooks";
+                SqlTransaction sqlTransaction = sqlConnection.BeginTransaction();
+                SqlCommand sqlCommand = new SqlCommand(borrow, sqlConnection, sqlTransaction);
+                sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
+                sqlCommand.Parameters.AddWithValue("@Book_id", id);
+                sqlCommand.Parameters.AddWithValue("@Borrower_name", borrower);
+
+                try
+                {
+                    int result = sqlCommand.ExecuteNonQuery();
+                    sqlTransaction.Commit();
+                    Console.WriteLine("Book issued !!");
+                }
+                catch (Exception)
+                {
+                    sqlTransaction.Rollback();
+                    Console.WriteLine("Something went wrong :(");
+                    Console.WriteLine("Rolling back");
+                }
+                return true;
+            }
+
+            catch (Exception)
+            {
+                Console.WriteLine("Something went wrong :(");
+                sqlConnection.Close();
+                return false;
+            }
+
+            finally
+            {
+                sqlConnection.Close();
+            }
+
+        }
+
     }
 }

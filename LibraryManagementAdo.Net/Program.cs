@@ -1,5 +1,4 @@
 ﻿using LibraryManagementAdo.Net;
-using System.Runtime.CompilerServices;
 
 public class Program
 {
@@ -17,6 +16,7 @@ public class Program
             Console.WriteLine("4. Get Borrowed Books");
             Console.WriteLine("5. Get books by author");
             Console.WriteLine("6. Get Books by Genre");
+            Console.WriteLine("7. Borrow book from library");
 
             Console.Write("Enter your Preference: ");
             int choice = Convert.ToInt32(Console.ReadLine());
@@ -69,6 +69,15 @@ public class Program
                     Console.Write("Enter the type of Genre: ");
                     string type = Console.ReadLine();
                     library.Get_books_by_Genre(type);
+                    break;
+
+                case 7:
+
+                    Console.Write("Enter book_id: ");
+                    int id = Convert.ToInt32(Console.ReadLine());
+                    Console.Write("Enter borrower name: ");
+                    string borrower = Console.ReadLine();
+                    library.Borrow_Book(id, borrower);
                     break;
             }
 
