@@ -16,7 +16,8 @@ public class Program
             Console.WriteLine("4. Get Borrowed Books");
             Console.WriteLine("5. Get books by author");
             Console.WriteLine("6. Get Books by Genre");
-            Console.WriteLine("7. Borrow book from library");
+            Console.WriteLine("7. Get Books detail by entering ID");
+            Console.WriteLine("8. Borrow book from library");
 
             Console.Write("Enter your Preference: ");
             int choice = Convert.ToInt32(Console.ReadLine());
@@ -72,6 +73,14 @@ public class Program
                     break;
 
                 case 7:
+
+                    Console.Write("Enter Book id: ");
+                    int idNum = Convert.ToInt32(Console.ReadLine());
+                    library.Get_book_details(idNum);
+                    break;
+
+
+                case 8:
 
                     Console.Write("Enter book_id: ");
                     int id = Convert.ToInt32(Console.ReadLine());
