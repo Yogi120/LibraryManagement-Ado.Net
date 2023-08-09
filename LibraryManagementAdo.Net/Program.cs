@@ -18,6 +18,8 @@ public class Program
             Console.WriteLine("6. Get Books by Genre");
             Console.WriteLine("7. Get Books detail by entering ID");
             Console.WriteLine("8. Borrow book from library");
+            Console.WriteLine("9. Return book");
+            Console.WriteLine("10. Exit the process");
 
             Console.Write("Enter your Preference: ");
             int choice = Convert.ToInt32(Console.ReadLine());
@@ -87,6 +89,23 @@ public class Program
                     Console.Write("Enter borrower name: ");
                     string borrower = Console.ReadLine();
                     library.Borrow_Book(id, borrower);
+                    break;
+
+                case 9:
+
+                    Console.Write("Enter the book_id: ");
+                    int Id = Convert.ToInt32(Console.ReadLine());
+                    library.Get_book_details(Id);
+                    break;
+
+                case 10:
+
+                    Console.WriteLine("Exiting.....");
+                    return;
+
+                default:
+
+                    Console.WriteLine(" !! Enter correct preference !!");
                     break;
             }
 

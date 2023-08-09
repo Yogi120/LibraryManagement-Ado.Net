@@ -352,5 +352,41 @@ namespace LibraryManagementAdo.Net
 
         }
 
+        public bool Return_Book(int book_id)
+        {
+            try
+            {
+                sqlConnection.Open();
+                string query = "SpReturnBooks";
+                SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
+                sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
+                sqlCommand.Parameters.AddWithValue("@Book_id", book_id);
+
+                int result = sqlCommand.ExecuteNonQuery();
+
+                if (result > 0)
+                {
+                    Console.WriteLine("Book Returned....");
+                }
+                else
+                {
+                    Console.WriteLine("Something went wrong !!!");
+                }
+                return true;
+            }
+
+            catch (Exception ex)
+            {
+                Console.WriteLine("Something went wrong");
+                Console.WriteLine(ex);
+                return false;
+            }
+
+            finally
+            {
+                sqlConnection.Close();
+            }
+        }
+
     }
 }
