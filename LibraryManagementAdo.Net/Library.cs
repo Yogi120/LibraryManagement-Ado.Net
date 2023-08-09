@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data.SqlClient;
 
 namespace LibraryManagementAdo.Net
 {
@@ -69,7 +64,7 @@ namespace LibraryManagementAdo.Net
                 while (reader.Read())
                 {
                     Books books = new Books()
-                    
+
                     {
                         Book_id = (int)reader["Book_id"],
                         Title = (string)reader["Title"],
@@ -102,7 +97,7 @@ namespace LibraryManagementAdo.Net
 
         public bool GetAvailableBooks()
         {
-            try 
+            try
             {
                 List<Books> list = new List<Books>();
                 sqlConnection.Open();
@@ -121,14 +116,14 @@ namespace LibraryManagementAdo.Net
                     };
                     list.Add(book);
                 }
-                foreach(Books book in list)
+                foreach (Books book in list)
                 {
                     Console.WriteLine($"Book_id : {book.Book_id}\n Title : {book.Title}\n Author : {book.Author}\n Genre : {book.Genre}");
                 }
                 return true;
             }
 
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex);
                 Console.WriteLine("Sometihing went wrong.....");
@@ -207,16 +202,62 @@ namespace LibraryManagementAdo.Net
                     };
                     list.Add(book);
                 }
+                foreach (Books book in list)
+                {
+                    Console.WriteLine($"Book_id : {book.Book_id}\n Title : {book.Title}\n Author : {book.Author}\n Genre : {book.Genre}\n Borrowed : {book.Borrowed}");
+                }
+                return true;
+            }
+
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                Console.WriteLine("Something went wrong......");
+                return false;
+            }
+
+            finally
+            {
+                sqlConnection.Close();
+            }
+        }
+
+        public bool Get_books_by_Genre(string genre)
+        {
+            try
+            {
+                List<Books> list = new List<Books>();
+                sqlConnection.Open();
+                string query = "SpGetBooksbyGenre";
+
+                SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
+                sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
+                sqlCommand.Parameters.AddWithValue("Genre", genre);
+
+                SqlDataReader reader = sqlCommand.ExecuteReader();
+                while (reader.Read())
+                {
+                    Books book = new Books()
+                    {
+                        Book_id = (int)reader["Book_id"],
+                        Title = (string)reader["Title"],
+                        Author = (string)reader["Author"],
+                        Genre = (string)reader["Genre"],
+                        Borrowed = (bool)reader["Borrowed"],
+                    };
+                    list.Add(book);
+                }
                 foreach(Books book in list)
                 {
                     Console.WriteLine($"Book_id : {book.Book_id}\n Title : {book.Title}\n Author : {book.Author}\n Genre : {book.Genre}\n Borrowed : {book.Borrowed}");
                 }
                 return true;
             }
+
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
-                Console.WriteLine("Something went wrong......");
+                Console.WriteLine("Something went wrong");
                 return false;
             }
 
