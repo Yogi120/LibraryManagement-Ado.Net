@@ -34,7 +34,11 @@ public class Program
 
                     break;
 
-              
+                case 2:
+
+                    Console.WriteLine("Displaying all contact.......");
+                    library.DisplayallBooks();
+                    break;
             }
 
         }
