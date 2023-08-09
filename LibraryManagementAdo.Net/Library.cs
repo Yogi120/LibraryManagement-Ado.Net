@@ -99,5 +99,46 @@ namespace LibraryManagementAdo.Net
             }
 
         }
+
+        public bool GetAvailableBooks()
+        {
+            try 
+            {
+                List<Books> list = new List<Books>();
+                sqlConnection.Open();
+                string available = "SpDisplayAvailableBooks";
+                SqlCommand sqlCommand = new SqlCommand(available, sqlConnection);
+
+                SqlDataReader reader = sqlCommand.ExecuteReader();
+                while (reader.Read())
+                {
+                    Books book = new Books()
+                    {
+                        Book_id = (int)reader["Book_id"],
+                        Title = (string)reader["Title"],
+                        Author = (string)reader["Author"],
+                        Genre = (string)reader["Genre"]
+                    };
+                    list.Add(book);
+                }
+                foreach(Books book in list)
+                {
+                    Console.WriteLine($"Book_id : {book.Book_id}\n Title : {book.Title}\n Author : {book.Author}\n Genre : {book.Genre}");
+                }
+                return true;
+            }
+
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex);
+                Console.WriteLine("Sometihing went wrong.....");
+                return false;
+            }
+            finally
+            {
+                sqlConnection.Close();
+            }
+
+        }
     }
 }

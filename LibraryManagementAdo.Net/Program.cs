@@ -12,6 +12,7 @@ public class Program
 
             Console.WriteLine("1. Add Book in Library");
             Console.WriteLine("2. Retrieve/Display the total number of books");
+            Console.WriteLine("3. Display available books");
 
             Console.Write("Enter your Preference: ");
             int choice = Convert.ToInt32(Console.ReadLine());
@@ -36,8 +37,14 @@ public class Program
 
                 case 2:
 
-                    Console.WriteLine("Displaying all contact.......");
+                    Console.WriteLine("Displaying all Books.......");
                     library.DisplayallBooks();
+                    break;
+
+                case 3:
+
+                    Console.WriteLine("Displaying Available books......");
+                    library.GetAvailableBooks();
                     break;
             }
 
