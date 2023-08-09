@@ -1,4 +1,5 @@
 ﻿using LibraryManagementAdo.Net;
+using System.Runtime.CompilerServices;
 
 public class Program
 {
@@ -13,6 +14,7 @@ public class Program
             Console.WriteLine("1. Add Book in Library");
             Console.WriteLine("2. Retrieve/Display the total number of books");
             Console.WriteLine("3. Display available books");
+            Console.WriteLine("4. Get Borrowed Books");
 
             Console.Write("Enter your Preference: ");
             int choice = Convert.ToInt32(Console.ReadLine());
@@ -45,6 +47,12 @@ public class Program
 
                     Console.WriteLine("Displaying Available books......");
                     library.GetAvailableBooks();
+                    break;
+
+                case 4:
+
+                    Console.WriteLine("Displaying borrowed books.....");
+                    library.GetBorrowedBooks();
                     break;
             }
 
