@@ -117,7 +117,7 @@ namespace LibraryManagementAdo.Net
                         Book_id = (int)reader["Book_id"],
                         Title = (string)reader["Title"],
                         Author = (string)reader["Author"],
-                        Genre = (string)reader["Genre"]
+                        Genre = (string)reader["Genre"],
                     };
                     list.Add(book);
                 }
@@ -159,7 +159,7 @@ namespace LibraryManagementAdo.Net
                         Title = (string)reader["Title"],
                         Author = (string)reader["Author"],
                         Genre = (string)reader["Genre"],
-                        Borrower_Name = (string)reader["Name_of_borrower"]
+                        Borrower_Name = (string)reader["Name_of_borrower"],
                     };
                     list.Add(book);
                 }
@@ -174,6 +174,49 @@ namespace LibraryManagementAdo.Net
             {
                 Console.WriteLine(ex);
                 Console.WriteLine("Something went wrong....");
+                return false;
+            }
+
+            finally
+            {
+                sqlConnection.Close();
+            }
+        }
+
+        public bool Get_books_by_author(string author)
+        {
+            try
+            {
+                List<Books> list = new List<Books>();
+                sqlConnection.Open();
+                string query = "SpGetBooksbyAuthor";
+                SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
+                sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
+                sqlCommand.Parameters.AddWithValue("Author", author);
+
+                SqlDataReader reader = sqlCommand.ExecuteReader();
+                while (reader.Read())
+                {
+                    Books book = new Books()
+                    {
+                        Book_id = (int)reader["Book_id"],
+                        Title = (string)reader["Title"],
+                        Author = (string)reader["Author"],
+                        Genre = (string)reader["Genre"],
+                        Borrowed = (bool)reader["Borrowed"],
+                    };
+                    list.Add(book);
+                }
+                foreach(Books book in list)
+                {
+                    Console.WriteLine($"Book_id : {book.Book_id}\n Title : {book.Title}\n Author : {book.Author}\n Genre : {book.Genre}\n Borrowed : {book.Borrowed}");
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                Console.WriteLine("Something went wrong......");
                 return false;
             }
 

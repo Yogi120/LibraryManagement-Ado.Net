@@ -15,6 +15,7 @@ public class Program
             Console.WriteLine("2. Retrieve/Display the total number of books");
             Console.WriteLine("3. Display available books");
             Console.WriteLine("4. Get Borrowed Books");
+            Console.WriteLine("5. Get books by author");
 
             Console.Write("Enter your Preference: ");
             int choice = Convert.ToInt32(Console.ReadLine());
@@ -53,6 +54,13 @@ public class Program
 
                     Console.WriteLine("Displaying borrowed books.....");
                     library.GetBorrowedBooks();
+                    break;
+
+                case 5:
+
+                    Console.Write("Enter the name of Author: ");
+                    string name = Console.ReadLine();
+                    library.Get_books_by_author(name);
                     break;
             }
 
